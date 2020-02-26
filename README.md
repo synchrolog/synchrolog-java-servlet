@@ -1,6 +1,7 @@
 # Synchrolog Java Servlet Integration
 
-Synchrolog Java Servlet Integration logs your web requests and  
+Synchrolog Java Servlet Integration logs your web requests and can server as a Log4j2
+or Logback Appender. 
 
 ## Installation
 
@@ -30,7 +31,7 @@ Or the following dependency in your gradle project:
 compile 'com.synchrolog:synchrolog-java-servlet:1.0.0'
 ```
 
-## Usage
+## Basic Usage
 
 Include the Synchrolog MiddlewareFilter in your web.xml configuration file.
 This middleware filter will take care of logging all requests.
@@ -86,6 +87,45 @@ That's it.
 ```
 
 Add -Dsynchrolog.apiKey=\[PUT YOUR SYNCHROLOG API KEY HERE\] to the java launch script
+
+## Optional Advanced Usage: Logging Appenders
+
+Synchrolog can be used as a Log4j2 or Logback appender
+
+### Log4j2 Appender Config
+
+Sample log4j2.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config" packages="com.synchrolog" status="WARN">
+    <Appenders>
+        <SynchrologAppender name="SYNCHROLOG"/>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="SYNCHROLOG" />
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+### Logback Appender Config
+
+Sample logback.xml
+
+```xml
+<configuration>
+    <appender name="SYNCHROLOG" class="com.synchrolog.logger.SynchrologLogbackAppender">
+        <!--<encoder>
+            <pattern>%d [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>-->
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="SYNCHROLOG"/>
+    </root>
+</configuration>
+```
 
 ## Contributing
 
