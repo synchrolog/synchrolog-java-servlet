@@ -28,7 +28,7 @@ the following dependency in your maven project:
 Or the following dependency in your gradle project:
 
 ```gradle
-compile 'com.synchrolog:synchrolog-java-servlet:1.0.0'
+compile 'com.synchrolog:synchrolog-java-servlet:0.0.2'
 ```
 
 ## Basic Usage
