@@ -11,7 +11,7 @@ trivial to build as there are few dependencies.
 ```bash
 $ git clone git@github.com:synchrolog/synchrolog-java-servlet.git
 $ cd synchrolog-java-servlet
-$ mvn install 
+$ ./mvnw install 
 ```
 
 After the library is available in the local Maven repo, you can include
