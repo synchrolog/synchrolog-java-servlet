@@ -19,6 +19,7 @@ import java.util.Optional;
 public class MiddlewareFilter implements Filter {
 
     private static final String SYNCHROLOG_DEFAULT_HOST = "https://input.synchrolog.com";
+    private static final String CONFIG_PROP_PREFIX = "synchrolog.";
     private SynchrologHttpClient synchrologClient;
     private boolean disableDefaultRequestLogging;
     private String requestAlreadyFilteredAttrKey;
@@ -26,23 +27,31 @@ public class MiddlewareFilter implements Filter {
     @Override
     public void init(FilterConfig config) throws ServletException {
 
-        final String apiKey = config.getInitParameter("apiKey");
+        String apiKey = getConfigProperty(config, "apiKey");
         if (apiKey == null || apiKey.trim().length() == 0) {
             throw new ServletException("Missing Synchrolog API key. Please add init parameter 'apiKey' to MiddlewareFilter.");
         }
 
-        String host = config.getInitParameter("host");
+        String host = getConfigProperty(config, "host");
         if (host == null || host.trim().length() == 0) {
             host = SYNCHROLOG_DEFAULT_HOST;
         }
 
-        String disableDefaultRequestLogging = config.getInitParameter("disableDefaultRequestLogging");
-        if (disableDefaultRequestLogging != null) {
+        String disableDefaultRequestLogging = getConfigProperty(config, "disableDefaultRequestLogging");
+        if (disableDefaultRequestLogging != null && disableDefaultRequestLogging.trim().length() > 0) {
             this.disableDefaultRequestLogging = Boolean.parseBoolean(disableDefaultRequestLogging);
         }
 
         this.synchrologClient = new SynchrologHttpClient(apiKey, host);
         this.requestAlreadyFilteredAttrKey = config.getFilterName() + ".FILTERED";
+    }
+
+    private String getConfigProperty(FilterConfig config, String s) {
+        String propVal = System.getProperty(CONFIG_PROP_PREFIX + s);
+        if (propVal == null) {
+            propVal = config.getInitParameter(s);
+        }
+        return propVal;
     }
 
     @Override
