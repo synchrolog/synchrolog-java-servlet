@@ -1,6 +1,6 @@
 # Synchrolog Java Servlet Integration
 
-Synchrolog Java Servlet Integration logs your web requests and can server as a Log4j2
+Synchrolog Java Servlet Integration logs your web requests and can serve as a Log4j2
 or Logback Appender. 
 
 ## Installation
