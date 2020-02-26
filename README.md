@@ -88,6 +88,22 @@ That's it.
 
 Add -Dsynchrolog.apiKey=\[PUT YOUR SYNCHROLOG API KEY HERE\] to the java launch script
 
+### Configuration Option C: Spring Boot
+
+```java
+@Bean
+public FilterRegistrationBean<MiddlewareFilter> loggingFilter() {
+    final Map<String, String> initParams = new HashMap<>();
+    initParams.put("apiKey", "[PUT YOUR SYNCHROLOG API KEY HERE]")
+
+    FilterRegistrationBean<MiddlewareFilter> registrationBean = new FilterRegistrationBean<>();     
+    registrationBean.setFilter(new MiddlewareFilter());
+    registrationBean.setInitParams(initParams);
+    registrationBean.addUrlPatterns("*");
+    return registrationBean;    
+}
+```
+
 ## Optional Advanced Usage: Logging Appenders
 
 Synchrolog can be used as a Log4j2 or Logback appender
